@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form with JavaScript Validation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <style>
+        body {
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            margin: 0;
+        }
+        .wrapper {
+            width: 320px;
+            background: #fff;
+            border: 1px solid #f3f3f3;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .inner-warpper {
+            padding: 50px 30px 60px;
+            text-align: center;
+        }
+        .title {
+            margin-top: 0;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            position: absolute;
+            top: 9px;
+            left: 10px;
+            font-size: 16px;
+            color: #cdcdcd;
+            padding: 2px 5px;
+            z-index: 5;
+            transition: all 0.3s linear;
+        }
+        .input-group input {
+            outline: none;
+            display: block;
+            width: 100%;
+            height: 40px;
+            border: 1px solid #d9d9d9;
+            padding: 10px 10px;
+            background: #ffffff;
+            box-sizing: border-box;
+        }
+        button {
+            cursor: pointer;
+            background: #00A885;
+            width: 100%;
+            border: 0;
+            padding: 10px 15px;
+            color: #fff;
+            font-size: 20px;
+            transition: 0.3s linear;
+            margin-bottom: 15px; /* Spacing below the button */
+        }
+        .clearfix {
+            display: inline-block;
+            margin-top: 10px; /* Add margin to the clearfix for spacing */
+        }
+        .supporter {
+            margin-top: 20px; /* Add margin for vertical spacing */
+        }
+        .remember-me {
+            margin-bottom: 10px; /* Spacing between Remember Me and next element */
+        }
+        a {
+            color: #00A885;
+        }
+        a:hover,
+        a:focus {
+            color: #00755d;
+            transition: all 0.3s linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="inner-warpper">
+            <h2 class="title">Log In</h2>
+            <form action="" id="formvalidate">
+                <div class="input-group">
+                    <label class="palceholder" for="userName">User Name</label>
+                    <input class="form-control" name="userName" id="userName" type="text" placeholder="">
+                </div>
+                <div class="input-group">
+                    <label class="palceholder" for="userPassword">Password</label>
+                    <input class="form-control" name="userPassword" id="userPassword" type="password" placeholder="">
+                </div>
+                <button type="submit" id="login">Log In</button>
+                <div class="clearfix supporter">
+                    <div class="remember-me">
+                        <input id="rememberMe" type="checkbox">
+                        <label for="rememberMe">Remember Me</label>
+                    </div>
+                </div>
+            </form>
+            <div class="signup-wrapper" style="margin-top: 20px;">
+                <p>I don't have an account.</p>
+                <a href="sign_up.html">Create One?</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+    <script>
+        (function($) {
+            $('.palceholder').click(function() {
+                $(this).siblings('input').focus();
+            });
+
+            $('.form-control').focus(function() {
+                $(this).parent().addClass("focused");
+            });
+
+            $('.form-control').on('input', function() {
+                var $this = $(this);
+                if ($this.val().length > 0) {
+                    $this.prev('label').fadeOut(); // Hide label when input has value
+                } else {
+                    $this.prev('label').fadeIn(); // Show label when input is empty
+                }
+            });
+
+            $('.form-control').blur(function() {
+                var $this = $(this);
+                if ($this.val().length === 0) {
+                    $this.parent().removeClass("focused");
+                }
+            });
+
+            $('.form-control').blur();
+
+            $.validator.setDefaults({
+                errorElement: 'span',
+                errorClass: 'validate-tooltip'
+            });
+
+            $("#formvalidate").validate({
+                rules: {
+                    userName: {
+                        required: true,
+                        minlength: 6
+                    },
+                    userPassword: {
+                        required: true,
+                        minlength: 6
+                    }
+                },
+                messages: {
+                    userName: {
+                        required: "Please enter your username.",
+                        minlength: "Username must be at least 6 characters long."
+                    },
+                    userPassword: {
+                        required: "Enter your password to log in.",
+                        minlength: "Password must be at least 6 characters long."
+                    }
+                },
+                submitHandler: function(form) {
+                    alert("Log In successful!");
+                    form.submit();
+                }
+            });
+        }(jQuery));
+    </script>
+</body>
+</html>
